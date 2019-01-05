@@ -27,7 +27,6 @@ class Related extends React.Component {
 
   // url - http://ec2-18-216-54-110.us-east-2.compute.amazonaws.com
   componentDidMount() {
-
     fetch(`http://${window.location.hostname}:3000/related`)
       .then(data => data.json())
       .then(json => {
@@ -54,13 +53,13 @@ class Related extends React.Component {
               >
                 <div className='image'>
                   <img
-                    src={item.full_img}
+                    src={item.thumbnail}
                   // width='150px'
                   // align='top'
                   />
                   <span className='name'>{item.name}</span>
                   {/* <br /> */}
-                  <span className='blurb'>{item.blurb}></span>
+                  <span className='blurb'>{item.blurb}</span>
                   {/* <br /> */}
                 </div>
               </div>
