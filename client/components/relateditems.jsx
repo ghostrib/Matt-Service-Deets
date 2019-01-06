@@ -1,37 +1,46 @@
 import React from 'react'
 
-// const itemStyle = {
-//   width: '60%',
-//   margin: '16px auto',
-//   border: '1px solid #eee',
-//   boxShadow: '0 2px 3px #ccc',
-//   padding: '16px',
-//   // textAlign: 'center'
-// }
-
-// const nameStyle = {
-//   fontFamily: 'arial',
-//   fontSize: '16px'
-// }
+const style = {
+  width: '30%',
+  margin: '4px',
+  border: '1px solid #eee',
+  boxShadow: '0 2px 3px #ccc',
+  padding: '12px',
+  textAlign: 'center',
+}
 
 class Related extends React.Component {
   constructor(props) {
     super(props);
     this.state = { items: [] }
-    // this.handleClick = this.handleClick.bind(this);
+    this.getRandomItems = this.getRandomItems.bind(this);
+    this.random = this.random.bind(this);
   }
 
-  // handleClick(e) {
-  //   console.log(e.target)
-  // }
+  random(number) {
+    return Math.floor(Math.random() * (number + 1));
+  }
 
-  // url - http://ec2-18-216-54-110.us-east-2.compute.amazonaws.com
+  getRandomItems(array) {
+    let result = [];
+    while (result.length < 5) {
+      let i = this.random(array.length - 1);
+      if (!result.includes(array[i])) {
+        result.push(array[i]);
+      }
+    }
+    return result;
+  }
+
+
+
   componentDidMount() {
     fetch(`http://${window.location.hostname}:3000/related`)
       .then(data => data.json())
       .then(json => {
+        let array = this.getRandomItems(json);
         let newState = {};
-        newState.items = json;
+        newState.items = array;
         this.setState(newState)
       })
       .catch(error => {
@@ -43,29 +52,25 @@ class Related extends React.Component {
     return (
       <div>
         {this.state.items.map((item, i) => {
-          if (i < 5) {
-            return (
-              <div
-                key={i}
-                // id={this.state.items[i].id}
-                className='item'
-                onClick={(event) => this.props.onClick(event, this.state.items[i].id)}
-              >
-                <div className='image'>
-                  <img
-                    src={item.thumbnail}
-                  // width='150px'
-                  // align='top'
-                  />
-                  <span className='name'>{item.name}</span>
-                  {/* <br /> */}
-                  <span className='blurb'>{item.blurb}</span>
-                  {/* <br /> */}
-                </div>
+          return (
+            <div
+              style={style}
+              key={i}
+              // id={this.state.items[i].id}
+              className='item'
+              onClick={(event) => this.props.onClick(event, this.state.items[i].id)}
+            >
+              <div className='image'>
+                <img
+                  src={item.full_img}
+                  width='150px'
+                  align='top'
+                />
+                <div className='name'>{item.name}</div>
+                <div className='blurb'>{item.blurb}</div>
               </div>
-
-            )
-          }
+            </div>
+          )
         })}
       </div>
     )
