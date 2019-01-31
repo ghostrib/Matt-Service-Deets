@@ -79,6 +79,7 @@ class Related extends React.Component {
       </div>
     )
   }
+
 }
 
 export default Related;
