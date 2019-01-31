@@ -58,7 +58,7 @@ class Related extends React.Component {
         {this.state.items.map((item, i) => {
           return (
             <div
-              style={style}
+              // style={style}
               key={i}
               // id={this.state.items[i].id}
               className='item'
